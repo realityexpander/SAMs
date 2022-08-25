@@ -6,31 +6,31 @@
 fun main() {
 
     // 1. Non-SAM way
-    val fooImp1 = object : Foo {
+    val fooImpl1 = object : Foo {
         override fun baz(a: Int, b: Int) {
             println("baz $a $b")
         }
     }
-    fooImp1.baz(1, 2)
+    fooImpl1.baz(1, 2)
     println("-----------------")
 
 
 
     // 2. SAM way
-    val fooImp2 = FooSAM { a, b ->
+    val fooImpl2 = FooSAM { a, b ->
         println("baz $a $b")
     }
-    fooImp2.baz(1, 2)
+    fooImpl2.baz(1, 2)
     println("-----------------")
 
 
 
-    // 3. SAM way (cleaner)
-    bar { a, b, ->
+    // 3. SAM way (passing in the interface)
+    fooImpl3(1,2) { a, b, ->
         println("baz $a, $b")
     }
 
-    bar { x, y ->
+    fooImpl3(1,2) { x, y ->
         println("SomeOther BazImpl $x, $y")
     }
 
@@ -57,8 +57,8 @@ fun interface FooSAM {
 }
 
 // 3. SAM way (cleaner)
-fun bar(fooSAM: FooSAM) {
+fun fooImpl3(a:Int, b: Int, fooSAM: FooSAM) {
     print("bar: ")
 
-    fooSAM.baz(1, 2)
+    fooSAM.baz(a, b)
 }
